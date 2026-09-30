@@ -11,6 +11,13 @@ The application supports two geometry modes:
 
 Unlike approaches that blend the original photograph back into the final image, LowPoly Studio uses the source image only for **analysis and polygon colour estimation**. The final output is rendered entirely from polygons.
 
+<img width="2559" height="1378" alt="image" src="https://github.com/user-attachments/assets/230be6d7-6f73-4181-9efa-23405178f1a0" />
+
+
+<img width="2559" height="1380" alt="image" src="https://github.com/user-attachments/assets/daf42cb7-3f60-44f1-8ceb-1d8171fc141a" />
+
+
+
 ---
 
 ## Features
