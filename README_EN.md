@@ -218,7 +218,7 @@ The colour-gradient response is:
 ```math
 G_{\text{colour}}(x,y)
 =
-\operatorname{Norm}
+\mathrm{Norm}
 \left(
 \sum_k G_k(x,y)
 \right)
@@ -251,7 +251,7 @@ V(x,y)
 The texture map is then smoothed and normalised:
 
 ```math
-T(x,y)=\operatorname{Norm}(V(x,y))
+T(x,y)=\mathrm{Norm}(V(x,y))
 ```
 ---
 
@@ -285,7 +285,7 @@ The final importance map is:
 ```math
 I
 =
-\operatorname{Norm}
+\mathrm{Norm}
 \left(
 \mathcal{G}(I_{\text{raw}})
 \right)
@@ -328,7 +328,7 @@ The value is clamped:
 ```math
 C
 =
-\operatorname{clip}
+\mathrm{clip}
 \left(
 C_{\text{raw}},
 0.75,
@@ -533,7 +533,7 @@ Each non-border site is then moved toward its Voronoi centroid:
 ```math
 p_i^{(t+1)}
 =
-\operatorname{centroid}
+\mathrm{centroid}
 \left(
 V_i^{(t)}
 \right)

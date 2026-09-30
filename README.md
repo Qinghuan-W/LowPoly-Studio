@@ -231,7 +231,7 @@ G_{y,k}(x,y)^2
 ```math
 G_{\text{colour}}(x,y)
 =
-\operatorname{Norm}
+\mathrm{Norm}
 \left(
 \sum_k G_k(x,y)
 \right)
@@ -274,7 +274,7 @@ V(x,y)
 ```math
 T(x,y)
 =
-\operatorname{Norm}(V(x,y))
+\mathrm{Norm}(V(x,y))
 ```
 其中 $T$ 表示最终的纹理响应图。
 
@@ -310,7 +310,7 @@ w_tT
 ```math
 I
 =
-\operatorname{Norm}
+\mathrm{Norm}
 \left(
 \mathcal{G}(I_{\text{raw}})
 \right)
@@ -353,7 +353,7 @@ d_e
 ```math
 C
 =
-\operatorname{clip}
+\mathrm{clip}
 \left(
 C_{\text{raw}},
 0.75,
@@ -582,7 +582,7 @@ c_y
 ```math
 p_i^{(t+1)}
 =
-\operatorname{centroid}
+\mathrm{centroid}
 \left(
 V_i^{(t)}
 \right)
