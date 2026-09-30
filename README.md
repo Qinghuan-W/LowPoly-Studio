@@ -11,6 +11,16 @@ LowPoly Studio 是一个桌面端图像风格化工具，可将普通照片转�
 
 与将原图重新叠加回最终图像的方法不同，LowPoly Studio 只使用原始图像进行 **特征分析与多边形颜色估计**。最终输出图像完全由多边形绘制得到。
 
+
+<img width="2559" height="1378" alt="image" src="https://github.com/user-attachments/assets/230be6d7-6f73-4181-9efa-23405178f1a0" />
+
+
+<img width="2559" height="1380" alt="image" src="https://github.com/user-attachments/assets/daf42cb7-3f60-44f1-8ceb-1d8171fc141a" />
+
+
+
+
+
 ---
 
 ## 功能特性
