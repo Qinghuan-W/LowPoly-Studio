@@ -181,22 +181,19 @@ Before feature extraction, the image is smoothed using a bilateral filter so tha
 
 For grayscale image $Y$, horizontal and vertical Sobel responses are:
 
-$$
+```math
 G_x = S_x * Y
-$$
-
-$$
+```
+```math
 G_y = S_y * Y
-$$
-
+```
 The gradient magnitude is:
 
-$$
+```math
 G_{\text{gray}}(x,y)
 =
 \sqrt{G_x(x,y)^2 + G_y(x,y)^2}
-$$
-
+```
 The result is Gaussian-smoothed and normalised into $[0,1]$.
 
 ---
@@ -207,7 +204,7 @@ The image is converted from BGR to CIELAB colour space.
 
 For each LAB channel $k$:
 
-$$
+```math
 G_k(x,y)
 =
 \sqrt{
@@ -215,19 +212,17 @@ G_{x,k}(x,y)^2
 +
 G_{y,k}(x,y)^2
 }
-$$
-
+```
 The colour-gradient response is:
 
-$$
+```math
 G_{\text{colour}}(x,y)
 =
 \operatorname{Norm}
 \left(
 \sum_k G_k(x,y)
 \right)
-$$
-
+```
 LAB is used because it separates luminance from chromatic components more effectively than operating directly on BGR channels.
 
 ---
@@ -238,15 +233,13 @@ Texture is estimated from local variance.
 
 For grayscale intensity $Y$:
 
-$$
+```math
 \mu(x,y) = \mathcal{G}_{\sigma}(Y)
-$$
-
-$$
+```
+```math
 \mu_2(x,y) = \mathcal{G}_{\sigma}(Y^2)
-$$
-
-$$
+```
+```math
 V(x,y)
 =
 \max
@@ -254,14 +247,12 @@ V(x,y)
 \mu_2(x,y)-\mu(x,y)^2,
 0
 \right)
-$$
-
+```
 The texture map is then smoothed and normalised:
 
-$$
+```math
 T(x,y)=\operatorname{Norm}(V(x,y))
-$$
-
+```
 ---
 
 ## 4. Importance Map
@@ -270,7 +261,7 @@ LowPoly Studio combines grayscale structure, colour structure, texture, and Cann
 
 The implementation uses:
 
-$$
+```math
 I_{\text{raw}}
 =
 0.37G_{\text{gray}}
@@ -280,8 +271,7 @@ I_{\text{raw}}
 w_tT
 +
 0.26E
-$$
-
+```
 where:
 
 - $G_{\text{gray}}$ is the normalised grayscale gradient
@@ -292,15 +282,14 @@ where:
 
 The final importance map is:
 
-$$
+```math
 I
 =
 \operatorname{Norm}
 \left(
 \mathcal{G}(I_{\text{raw}})
 \right)
-$$
-
+```
 The map therefore assigns more sampling density to visually significant regions.
 
 ---
@@ -309,7 +298,7 @@ The map therefore assigns more sampling density to visually significant regions.
 
 The application estimates image complexity using edge density and average importance:
 
-$$
+```math
 C_{\text{raw}}
 =
 0.65
@@ -317,29 +306,26 @@ C_{\text{raw}}
 3.2d_e
 +
 1.35\bar{I}
-$$
-
+```
 where:
 
-$$
+```math
 d_e
 =
 \frac{\text{number of edge pixels}}
 {\text{number of image pixels}}
-$$
-
+```
 and:
 
-$$
+```math
 \bar{I}
 =
 \frac{1}{WH}
 \sum_{x,y}I(x,y)
-$$
-
+```
 The value is clamped:
 
-$$
+```math
 C
 =
 \operatorname{clip}
@@ -348,8 +334,7 @@ C_{\text{raw}},
 0.75,
 1.65
 \right)
-$$
-
+```
 This automatically allocates more geometry to visually complex images.
 
 ---
@@ -358,24 +343,22 @@ This automatically allocates more geometry to visually complex images.
 
 Let:
 
-$$
+```math
 A
 =
 \frac{\max(W,H)}
 {\min(W,H)}
-$$
-
+```
 and:
 
-$$
+```math
 R=\sqrt{A}
-$$
-
+```
 The approximate number of sampled points in each category is:
 
 ### Importance points
 
-$$
+```math
 N_{\text{adaptive}}
 =
 760
@@ -385,11 +368,10 @@ C
 R
 \cdot
 D_p
-$$
-
+```
 ### Edge points
 
-$$
+```math
 N_{\text{edge}}
 =
 460
@@ -399,11 +381,10 @@ C
 R
 \cdot
 D_e
-$$
-
+```
 ### Corner points
 
-$$
+```math
 N_{\text{corner}}
 =
 240
@@ -413,11 +394,10 @@ C
 R
 \cdot
 D_c
-$$
-
+```
 ### Background points
 
-$$
+```math
 N_{\text{background}}
 =
 75
@@ -425,8 +405,7 @@ N_{\text{background}}
 R
 \cdot
 D_b
-$$
-
+```
 where $D_p,D_e,D_c,D_b$ are the user-controlled density parameters.
 
 The implementation clamps these values to practical ranges to control memory usage and rendering cost.
@@ -439,14 +418,13 @@ Pixels are sampled according to the importance map.
 
 The sampling probability is proportional to:
 
-$$
+```math
 P(x,y)
 \propto
 \left(
 I(x,y)+0.035
 \right)^{1.5}
-$$
-
+```
 This gives high-importance locations a greater chance of becoming polygon vertices while still allowing sampling in low-detail regions.
 
 ---
@@ -457,46 +435,42 @@ Background calmness controls how evenly points are distributed in low-detail reg
 
 For a requested background sample count $N$, an approximate spatial step is:
 
-$$
+```math
 s
 =
 \sqrt{
 \frac{WH}{N}
 }
-$$
-
+```
 If the calmness parameter is $c\in[0,1]$, sampling jitter is:
 
-$$
+```math
 J
 =
 s(0.42-0.32c)
-$$
-
+```
 Higher calmness therefore reduces random displacement and produces more stable, evenly spaced background cells.
 
 Candidate points are scored using:
 
-$$
+```math
 S
 =
 I(x,y)(1.35+0.65c)
 +
 B(0.35+0.35c)
-$$
-
+```
 where $B$ is the candidate's normalised displacement from the centre of its sampling cell.
 
 Remaining points favour low-importance regions using:
 
-$$
+```math
 P_{\text{background}}(x,y)
 \propto
 \left(
 1-I(x,y)+0.03
 \right)^{1.30+1.40c}
-$$
-
+```
 ---
 
 # Geometry
@@ -515,13 +489,12 @@ This mode produces the classic triangular Low Poly appearance.
 
 For sites:
 
-$$
+```math
 P=\{p_1,p_2,\ldots,p_n\}
-$$
-
+```
 the Voronoi region associated with $p_i$ is:
 
-$$
+```math
 V_i
 =
 \left\{
@@ -532,8 +505,7 @@ x
 \|x-p_j\|,
 \forall j\ne i
 \right\}
-$$
-
+```
 Every point in $V_i$ is therefore at least as close to site $p_i$ as it is to any other site.
 
 This produces irregular polygon cells rather than triangles.
@@ -546,29 +518,26 @@ Voronoi mode optionally applies Lloyd relaxation.
 
 For each Voronoi region $V_i$, its centroid is computed from image moments:
 
-$$
+```math
 c_x
 =
 \frac{M_{10}}{M_{00}}
-$$
-
-$$
+```
+```math
 c_y
 =
 \frac{M_{01}}{M_{00}}
-$$
-
+```
 Each non-border site is then moved toward its Voronoi centroid:
 
-$$
+```math
 p_i^{(t+1)}
 =
 \operatorname{centroid}
 \left(
 V_i^{(t)}
 \right)
-$$
-
+```
 Repeated iterations produce more regular and visually balanced cells.
 
 Border sites remain fixed so that the tessellation continues to cover the full image.
@@ -581,22 +550,20 @@ The original image is used only as a colour source.
 
 An optional Gaussian blur produces:
 
-$$
+```math
 I_{\sigma}
 =
 \mathcal{G}_{\sigma}(I)
-$$
-
+```
 For polygon $P$, its colour is the mean colour of all source pixels contained inside that polygon:
 
-$$
+```math
 \mathbf{c}_P
 =
 \frac{1}{|P|}
 \sum_{x\in P}
 I_{\sigma}(x)
-$$
-
+```
 The entire polygon is then filled with this single colour.
 
 The renderer does **not** copy the original image into the output buffer.
@@ -613,14 +580,13 @@ When palette reduction is enabled, the rendered Low Poly image is clustered usin
 
 For $K$ colour centres $\mu_k$, K-means minimises:
 
-$$
+```math
 \min_{\{\mu_k\}}
 \sum_i
 \left\|
 x_i-\mu_{z_i}
 \right\|^2
-$$
-
+```
 where:
 
 - $x_i$ is a rendered pixel colour
@@ -647,14 +613,13 @@ Let:
 
 The final result is:
 
-$$
+```math
 L_{\text{final}}
 =
 (1-\alpha)L
 +
 \alpha\mathcal{G}_{\sigma}(L)
-$$
-
+```
 No original-image pixels are introduced during this step.
 
 ---
